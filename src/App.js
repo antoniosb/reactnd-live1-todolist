@@ -9,6 +9,12 @@ export default class App extends Component {
     window.localStorage.setItem('todoListTasks', stringifiedTasks);
   }
 
+  static TRANSITIONS = {
+    'To do': 'Doing',
+    Doing: 'Done',
+    Done: 'To do',
+  }
+
   state = {
     tasks: [],
   }
@@ -44,8 +50,9 @@ export default class App extends Component {
     let { tasks } = this.state;
     tasks = tasks.filter(t => t.id !== task.id).concat({
       ...task,
-      status: target.checked ? 'Done' : 'To do',
+      status: App.TRANSITIONS[task.status],
     });
+
     this.syncTasksOnRefs(tasks);
   }
 
@@ -54,6 +61,10 @@ export default class App extends Component {
     const columns = [
       {
         title: 'To do',
+        tasks,
+      },
+      {
+        title: 'Doing',
         tasks,
       },
       {
