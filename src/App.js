@@ -5,7 +5,31 @@ import ColumnList from './ColumnList';
 
 const App = () => {
   const columns = [
-    { title: 'To do', tasks: [] },
+    {
+      title: 'To do',
+      tasks: [
+        {
+          id: 1,
+          description: 'develop project #1',
+          status: 'To do',
+        },
+        {
+          id: 2,
+          description: 'get used with arrow functions',
+          status: 'Done',
+        },
+      ],
+    },
+    {
+      title: 'Doing',
+      tasks: [
+        {
+          id: 3,
+          description: 'get used with arrow functions',
+          status: 'Doing',
+        },
+      ],
+    },
     { title: 'Done', tasks: [] },
   ];
 
@@ -17,7 +41,12 @@ const App = () => {
       </header>
       <div className="App-container">
         <div className="app-lists">
-          {columns.map(column => <ColumnList columnTitle={column.title} />)}
+          {columns.map(column => (
+            <ColumnList
+              key={column.title}
+              columnTitle={column.title}
+              tasks={column.tasks}
+            />))}
         </div>
       </div>
     </div>
