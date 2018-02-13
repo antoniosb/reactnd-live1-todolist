@@ -8,6 +8,21 @@ export default class App extends Component {
     tasks: [],
   }
 
+  componentWillMount() {
+    const todoListTasks = window.localStorage.getItem('todoListTasks') || '[]';
+    this.setState({ tasks: JSON.parse(todoListTasks) });
+  }
+
+  updateLocalStorageTasks(tasks) {
+    const stringifiedTasks = JSON.stringify(tasks);
+    window.localStorage.setItem('todoListTasks', stringifiedTasks);
+  }
+
+  syncTasksOnRefs(tasks) {
+    this.updateLocalStorageTasks(tasks);
+    this.setState({ tasks });
+  }
+
   addTask(e) {
     e.preventDefault();
 
@@ -20,7 +35,7 @@ export default class App extends Component {
       status: 'To do',
     };
     tasks = tasks.concat(newTask);
-    this.setState({ tasks });
+    this.syncTasksOnRefs(tasks);
   }
 
   updateTask(target, task) {
@@ -29,7 +44,7 @@ export default class App extends Component {
       ...task,
       status: target.checked ? 'Done' : 'To do',
     });
-    this.setState({ tasks });
+    this.syncTasksOnRefs(tasks);
   }
 
   render() {
