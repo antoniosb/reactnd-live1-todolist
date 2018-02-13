@@ -13,6 +13,7 @@ export default class App extends Component {
 
     let { tasks } = this.state;
     const { value } = e.target.querySelector('input');
+    e.target.querySelector('input').value = '';
     const newTask = {
       id: tasks.length + 1,
       description: value,
@@ -23,7 +24,6 @@ export default class App extends Component {
   }
 
   updateTask(target, task) {
-    console.log('Updating task...');
     let { tasks } = this.state;
     tasks = tasks.filter(t => t.id !== task.id).concat({
       ...task,
