@@ -4,6 +4,11 @@ import './App.css';
 import ColumnList from './ColumnList';
 
 export default class App extends Component {
+  static updateLocalStorageTasks(tasks) {
+    const stringifiedTasks = JSON.stringify(tasks);
+    window.localStorage.setItem('todoListTasks', stringifiedTasks);
+  }
+
   state = {
     tasks: [],
   }
@@ -13,21 +18,18 @@ export default class App extends Component {
     this.setState({ tasks: JSON.parse(todoListTasks) });
   }
 
-  updateLocalStorageTasks(tasks) {
-    const stringifiedTasks = JSON.stringify(tasks);
-    window.localStorage.setItem('todoListTasks', stringifiedTasks);
-  }
-
   syncTasksOnRefs(tasks) {
-    this.updateLocalStorageTasks(tasks);
+    App.updateLocalStorageTasks(tasks);
     this.setState({ tasks });
   }
 
   addTask(e) {
     e.preventDefault();
-
     let { tasks } = this.state;
     const { value } = e.target.querySelector('input');
+    if (!value) {
+      return;
+    }
     e.target.querySelector('input').value = '';
     const newTask = {
       id: tasks.length + 1,
