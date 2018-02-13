@@ -4,33 +4,36 @@ import './App.css';
 import ColumnList from './ColumnList';
 
 const App = () => {
+  const tasks = [
+    {
+      id: 1,
+      description: 'develop project #1',
+      status: 'To do',
+    },
+    {
+      id: 2,
+      description: 'get used with arrow functions',
+      status: 'Done',
+    },
+    {
+      id: 3,
+      description: 'get used with arrow functions',
+      status: 'Doing',
+    },
+  ];
   const columns = [
     {
       title: 'To do',
-      tasks: [
-        {
-          id: 1,
-          description: 'develop project #1',
-          status: 'To do',
-        },
-        {
-          id: 2,
-          description: 'get used with arrow functions',
-          status: 'Done',
-        },
-      ],
+      tasks,
     },
     {
       title: 'Doing',
-      tasks: [
-        {
-          id: 3,
-          description: 'get used with arrow functions',
-          status: 'Doing',
-        },
-      ],
+      tasks,
     },
-    { title: 'Done', tasks: [] },
+    {
+      title: 'Done',
+      tasks,
+    },
   ];
 
   return (

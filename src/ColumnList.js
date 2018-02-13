@@ -8,6 +8,7 @@ const ColumnList = ({ columnTitle, tasks }) => {
 
   return (
     <div className="column-list">
+      <h3>{columnTitle}</h3>
       <If test={columnTitle === 'To do'}>
         <form onSubmit={() => {}}>
           <input placeholder="Create new task" type="text" />
@@ -16,7 +17,6 @@ const ColumnList = ({ columnTitle, tasks }) => {
           </button>
         </form>
       </If>
-      <h3>{columnTitle}</h3>
       <ul className="list-items">
         {
           currentTasks.map(task => (
