@@ -22,8 +22,14 @@ export default class App extends Component {
     this.setState({ tasks });
   }
 
-  updateTask() {
+  updateTask(target, task) {
     console.log('Updating task...');
+    let { tasks } = this.state;
+    tasks = tasks.filter(t => t.id !== task.id).concat({
+      ...task,
+      status: target.checked ? 'Done' : 'To do',
+    });
+    this.setState({ tasks });
   }
 
   render() {
@@ -31,10 +37,6 @@ export default class App extends Component {
     const columns = [
       {
         title: 'To do',
-        tasks,
-      },
-      {
-        title: 'Doing',
         tasks,
       },
       {
@@ -56,7 +58,7 @@ export default class App extends Component {
                 columnTitle={column.title}
                 tasks={column.tasks}
                 addTask={e => this.addTask(e)}
-                updateTask={() => this.updateTask()}
+                updateTask={(target, task) => this.updateTask(target, task)}
               />))}
           </div>
         </div>

@@ -25,7 +25,7 @@ const ColumnList = ({
             <li key={task.id}>
               <input
                 type="checkbox"
-                onChange={updateTask}
+                onChange={e => updateTask(e.target, task)}
                 checked={task.status === 'Done'}
               />
               <span>{task.description}</span>
