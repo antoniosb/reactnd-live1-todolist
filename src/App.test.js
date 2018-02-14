@@ -10,6 +10,10 @@ it('renders without crashing with enzyme', () => {
 });
 
 describe('<App />', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('renders three ColumnList components', () => {
     const app = shallow(<App />);
     expect(app.find(ColumnList).length).toBe(3);
@@ -48,5 +52,64 @@ describe('<App />', () => {
     app.find(ColumnList).map(columnElement => (
       expect(columnElement.prop('tasks')).toEqual(sampleTasks)
     ));
+  });
+
+  describe('adding tasks', () => {
+    let app;
+    let form;
+    beforeEach(() => {
+      app = shallow(<App />);
+      form = {
+        preventDefault: () => {},
+        target: {
+          querySelector: () => ({
+            value: 'new task',
+          }),
+        },
+      };
+    });
+
+    it('updates the component state', () => {
+      app.instance().addTask(form);
+      expect(app.state('tasks').length).toBe(1);
+      expect(app.state('tasks')[0].id).toEqual(1);
+      expect(app.state('tasks')[0].description).toEqual('new task');
+      expect(app.state('tasks')[0].status).toEqual('To do');
+    });
+
+    it('updates the localStorage', () => {
+      expect(localStorage.getItem('todoListTasks')).toBeNull();
+      app.instance().addTask(form);
+      expect(localStorage.getItem('todoListTasks')).not.toBeNull();
+      const tasks = JSON.parse(localStorage.getItem('todoListTasks'));
+      expect(tasks.length).toBe(1);
+      expect(tasks[0].id).toEqual(1);
+      expect(tasks[0].description).toEqual('new task');
+      expect(tasks[0].status).toEqual('To do');
+    });
+  });
+
+  describe('updating tasks', () => {
+    xit('updates the component state', () => {
+
+    });
+
+    xit('updates the localStorage', () => {
+
+    });
+
+    describe('Tasks status transitions', () => {
+      xit('"To do" => "Doing"', () => {
+
+      });
+
+      xit('"Doing" => "Done"', () => {
+
+      });
+
+      xit('"Done" => "To do"', () => {
+
+      });
+    });
   });
 });
