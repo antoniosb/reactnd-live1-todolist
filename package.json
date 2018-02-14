@@ -24,10 +24,5 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
     "jest-localstorage-mock": "^2.2.0"
-  },
-  "jest": {
-    "setupFiles": [
-      "jest-localstorage-mock"
-    ]
   }
 }
