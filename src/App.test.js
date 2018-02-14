@@ -90,25 +90,72 @@ describe('<App />', () => {
   });
 
   describe('updating tasks', () => {
-    xit('updates the component state', () => {
+    let app;
+    let updateTaskParams = {
+      id: 1,
+      description: 'new task description',
+    };
 
+    beforeEach(() => {
+      app = shallow(<App />);
+      const tasks = [{
+        id: 1,
+        description: 'foo task',
+        status: 'To do',
+      }];
+      app.setState({ tasks });
+      localStorage.setItem('todoListTasks', JSON.stringify(tasks));
     });
 
-    xit('updates the localStorage', () => {
+    it('updates the component state', () => {
+      app.instance().updateTask(null, updateTaskParams);
+      expect(app.state('tasks').length).toBe(1);
+      expect(app.state('tasks')[0].id).toEqual(1);
+      expect(app.state('tasks')[0].description).toEqual('new task description');
+    });
 
+    it('updates the localStorage', () => {
+      expect(localStorage.getItem('todoListTasks')).not.toBeNull();
+      let localStorageTask = JSON.parse(localStorage.getItem('todoListTasks'));
+      expect(localStorageTask.length).toBe(1);
+      expect(localStorageTask[0].id).toEqual(1);
+      expect(localStorageTask[0].description).toEqual('foo task');
+
+      app.instance().updateTask(null, updateTaskParams);
+
+      expect(localStorage.getItem('todoListTasks')).not.toBeNull();
+      localStorageTask = JSON.parse(localStorage.getItem('todoListTasks'));
+      expect(localStorageTask.length).toBe(1);
+      expect(localStorageTask[0].id).toEqual(1);
+      expect(localStorageTask[0].description).toEqual('new task description');
     });
 
     describe('Tasks status transitions', () => {
-      xit('"To do" => "Doing"', () => {
+      it('"To do" => "Doing"', () => {
+        updateTaskParams = { ...updateTaskParams, status: 'To do' };
 
+        app.instance().updateTask(null, updateTaskParams);
+        expect(app.state('tasks').length).toBe(1);
+        expect(app.state('tasks')[0].id).toEqual(1);
+        expect(app.state('tasks')[0].status).toEqual('Doing');
       });
 
-      xit('"Doing" => "Done"', () => {
+      it('"Doing" => "Done"', () => {
+        updateTaskParams = { ...updateTaskParams, status: 'Doing' };
 
+        app.instance().updateTask(null, updateTaskParams);
+        expect(app.state('tasks').length).toBe(1);
+        expect(app.state('tasks')[0].id).toEqual(1);
+        expect(app.state('tasks')[0].status).toEqual('Done');
       });
 
-      xit('"Done" => "To do"', () => {
+      it('"Done" => "To do"', () => {
+        updateTaskParams = { ...updateTaskParams, status: 'Done' };
 
+        app.instance().updateTask(null, updateTaskParams);
+        expect(app.state('tasks').length).toBe(1);
+        expect(app.state('tasks')[0].id).toEqual(1);
+        expect(app.state('tasks')[0].status).toEqual('To do');
       });
     });
   });
